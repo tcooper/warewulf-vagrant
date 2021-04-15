@@ -19,19 +19,12 @@ end
 
 Vagrant.configure(2) do |config|
 
-  config.vm.provider "virtualbox" do |vb|
-    vb.check_guest_additions = false
-    vb.default_nic_type = "virtio"
-    vb.customize ["modifyvm", :id, "--graphicscontroller", "vmsvga", "--vram", "128", "--rtcuseutc", "on"]
-  end
-
   config.vm.define "mgr", primary: true, autostart: true do |mgr|
-    config.vm.boot_timeout = 300
-    config.vm.box = cfg["mgr_image"]
+    mgr.vm.boot_timeout = 300
+    mgr.vm.box = cfg["mgr_image"]
     mgr.vm.hostname = "mgr.example.com"
 
-    #mgr.vm.network "private_network", ip: cfg["mgr_nic1_ip"]
-    mgr.vm.network "private_network", ip: cfg["mgr_nic2_ip"], virtualbox__intnet: true, virtualbox__intnet: "ww4-intnet"
+    mgr.vm.network "private_network", ip: cfg["mgr_nic1_ip"]
 
     mgr.vm.provider "virtualbox" do |vb|
       vb.memory = cfg["mgr_ram"]
@@ -41,10 +34,10 @@ Vagrant.configure(2) do |config|
 
     # NOTE: Configuration sequence from https://warewulf.readthedocs.io/en/latest/getting-started/quickstart-rocky8.html
     #config.vm.provision "file", source: "~/.vagrant.d/insecure_private_key", destination: "/vagrant/tmp/keys/ssh_private"
-    config.vm.provision "shell", :path => "./mgr/warewulf_pre.sh"
-    config.vm.provision "shell", :path => "./mgr/warewulf_install.sh"
-    config.vm.provision "file",  source: "./mgr/warewulf.conf", destination: "/tmp/warewulf.conf"
-    config.vm.provision "shell", :path => "./mgr/warewulf_config.sh"
+    mgr.vm.provision "shell", :path => "./mgr/warewulf_pre.sh"
+    mgr.vm.provision "shell", :path => "./mgr/warewulf_install.sh"
+    mgr.vm.provision "file",  source: "./mgr/warewulf.conf", destination: "/tmp/warewulf.conf"
+    mgr.vm.provision "shell", :path => "./mgr/warewulf_config.sh"
   end
 
   cfg["compute_count"].times do |index|
