@@ -35,7 +35,12 @@ sudo wwctl node set --yes --discoverable cn1
 sudo wwctl node list --long
 sudo wwctl node list --net
 
-# Add shadow file runtime overlay
+# Update the cluster /etc/hosts file
+sudo wwctl configure hosts --persist
+
+# Make sure all hosts are in DHCP
+sudo wwctl configure dhcp --persist
+
 sudo wwctl overlay import default /etc/shadow /etc/shadow.ww
 
 # (Re)build all overlays
