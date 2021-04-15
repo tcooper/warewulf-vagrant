@@ -1,4 +1,6 @@
 .DS_Store
 .vagrant/*
+*.webm
+*.mp4
 iso/ipxe.iso
 vagrant-settings.yaml
