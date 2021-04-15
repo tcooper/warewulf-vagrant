@@ -17,12 +17,11 @@ sudo wwctl container import docker://warewulf/centos-8 centos8 --setdefault
 sudo wwctl kernel import "$(uname -r)" --setdefault
 
 # Setup the default node profile
-#sudo wwctl profile set default -K $(uname -r) -C centos-8
-sudo wwctl profile set --force default --netdev eth1 -M 255.255.255.0 -G 10.0.2.1
-sudo wwctl profile set --force default --netdev eth0 -M 255.255.255.0 -G 192.168.15.15
-sudo wwctl profile set --force default --netdev enp0s3 -M 255.255.255.0 -G 10.0.2.1
-sudo wwctl profile set --force default --netdev enp0s8 -M 255.255.255.0 -G 192.168.15.15
-sudo wwctl profile list
+sudo wwctl profile set default --netdev enp0s8 -M 255.255.255.0 -G 192.168.15.15<< EOF
+y
+EOF
+
+sudo wwctl profile list --verbose
 
 # Add node(s) and build node specific overlays
 sudo wwctl node add cn0.cluster --netdev enp0s8 -I 192.168.15.130 --hwaddr "08:00:27:54:8a:84" --discoverable
