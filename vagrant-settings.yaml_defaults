@@ -6,23 +6,22 @@ int_net: ww4-intnet
 mgr_image: generic/centos8
 mgr_ram: 2048
 mgr_cpus: 1
+mgr_gui: true
 
-mgr_nic1_ip: 10.0.2.15
-mgr_nic2_ip: 192.168.15.15
+mgr_nic1_ip: 10.2.2.15
 
 compute_image: onyxpoint/empty
 compute_iso: ./iso/ipxe.iso
 compute_ram: 4096
 compute_cpus: 1
+compute_gui: true
 
 compute_count: 2
 
-cn0_nic1_mac: 080027F44F4C
-cn0_nic1_ip: 10.0.2.130
-cn0_nic2_mac: 080027548A84
-cn0_nic2_ip: 192.168.15.130
+cn0_firmware: bios
+cn0_nic1_mac: 080027548A84
+cn0_nic1_ip: 10.2.2.130
 
-cn1_nic1_mac: 08002745B9E5
-cn1_nic1_ip: 10.0.2.131
-cn1_nic2_mac: 080027DB86D5
-cn1_nic2_ip: 192.168.15.131
+cn1_firmware: bios
+cn1_nic1_mac: 080027DB86D5
+cn1_nic1_ip: 10.2.2.131
