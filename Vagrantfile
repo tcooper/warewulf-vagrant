@@ -44,6 +44,9 @@ Vagrant.configure(2) do |config|
       vb.customize ["modifyvm", :id, "--audio", "none"]
       vb.customize ["modifyvm", :id, "--clipboard", "disabled", "--draganddrop", "disabled"]
       vb.customize ["modifyvm", :id, "--mouse", "usb", "--keyboard", "usb"]
+      vb.customize ["modifyvm", :id, "--recording", cfg["mgr_recording_state"]]
+      vb.customize ["modifyvm", :id, "--recordingmaxtime", cfg["mgr_recording_time"]]
+      vb.customize ["modifyvm", :id, "--recordingfile", "./mgr.webm"]
     end
 
     # NOTE: Configuration sequence from https://warewulf.readthedocs.io/en/latest/getting-started/quickstart-rocky8.html
@@ -90,6 +93,9 @@ Vagrant.configure(2) do |config|
         vb.customize ["modifyvm", :id, "--audio", "none"]
         vb.customize ["modifyvm", :id, "--clipboard", "disabled", "--draganddrop", "disabled"]
         vb.customize ["modifyvm", :id, "--mouse", "usb", "--keyboard", "usb"]
+        vb.customize ["modifyvm", :id, "--recording", cfg["compute_recording_state"]]
+        vb.customize ["modifyvm", :id, "--recordingmaxtime", cfg["compute_recording_time"]]
+        vb.customize ["modifyvm", :id, "--recordingfile", "./cn#{index}.webm"]
 
         # Attach in iPXE ISO that provides bzImage support
         # If we get chainloading working this will not be required
