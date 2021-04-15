@@ -49,6 +49,7 @@ Vagrant.configure(2) do |config|
     # NOTE: Configuration sequence from https://warewulf.readthedocs.io/en/latest/getting-started/quickstart-rocky8.html
     #config.vm.provision "file", source: "~/.vagrant.d/insecure_private_key", destination: "/vagrant/tmp/keys/ssh_private"
     mgr.vm.provision "shell", :path => "./mgr/warewulf_pre.sh"
+    mgr.vm.provision :reload
     mgr.vm.provision "shell", :path => "./mgr/warewulf_install.sh"
     mgr.vm.provision "file",  source: "./mgr/warewulf.conf", destination: "/tmp/warewulf.conf"
     mgr.vm.provision "shell", :path => "./mgr/warewulf_config.sh"

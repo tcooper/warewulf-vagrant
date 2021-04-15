@@ -15,4 +15,8 @@ test -f "$(basename "${ISO}")" || curl -LOR "$ISO"
 
 popd
 
+
+# Add vagrant plugins
+vagrant plugin install vagrant-reload
+
 exit 0
