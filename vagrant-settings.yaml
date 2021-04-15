@@ -6,6 +6,7 @@ int_net: ww4-intnet
 mgr_image: generic/centos8
 mgr_ram: 2048
 mgr_cpus: 1
+mgr_gui: true
 
 mgr_nic1_ip: 10.0.2.15
 mgr_nic2_ip: 192.168.15.15
@@ -14,6 +15,7 @@ compute_image: onyxpoint/empty
 compute_iso: ./iso/ipxe.iso
 compute_ram: 4096
 compute_cpus: 1
+compute_gui: true
 
 compute_count: 2
 

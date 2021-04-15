@@ -29,7 +29,7 @@ Vagrant.configure(2) do |config|
     mgr.vm.provider "virtualbox" do |vb|
       vb.memory = cfg["mgr_ram"]
       vb.cpus = cfg["mgr_cpus"]
-      vb.gui = true
+      vb.gui = cfg["mgr_gui"]
     end
 
     # NOTE: Configuration sequence from https://warewulf.readthedocs.io/en/latest/getting-started/quickstart-rocky8.html
@@ -60,7 +60,7 @@ Vagrant.configure(2) do |config|
       config.vm.provider "virtualbox" do |vb|
         vb.memory = cfg["compute_ram"]
         vb.cpus = cfg["compute_cpus"]
-        vb.gui = true
+        vb.gui = cfg["compute_gui"]
 
         # let vagrant known that the guest does not have the guest additions nor a functional vboxsf or shared folders.
         vb.check_guest_additions = false
