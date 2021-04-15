@@ -21,11 +21,6 @@ sudo singularity exec --writable ./rootfs dnf -y install sudo
 sudo singularity exec --writable ./rootfs dnf -y install tree
 sudo singularity exec --writable ./rootfs dnf -y install tcpdump
 
-# Allow vagrant user to run sudo without password
-sudo touch rootfs/etc/sudoers.d/vagrant
-echo "vagrant        ALL=(ALL)       NOPASSWD: ALL" | sudo tee rootfs/etc/sudoers.d/vagrant
-sudo chmod 440 rootfs/etc/sudoers.d/vagrant
-
 # Copy chroot to container directory
 sudo mkdir -p "${CHROOT_DIR}/${CHROOT_NAME}"
 cd "${BUILD_DIR}"
