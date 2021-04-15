@@ -53,6 +53,7 @@ Vagrant.configure(2) do |config|
     mgr.vm.provision "shell", :path => "./mgr/warewulf_install.sh"
     mgr.vm.provision "file",  source: "./mgr/warewulf.conf", destination: "/tmp/warewulf.conf"
     mgr.vm.provision "shell", :path => "./mgr/warewulf_config.sh"
+    mgr.vm.provision "shell", :path => "./mgr/warewulf_container.sh"
   end
 
   cfg["compute_count"].times do |index|
