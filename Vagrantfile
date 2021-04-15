@@ -55,7 +55,7 @@ Vagrant.configure(2) do |config|
     mgr.vm.provision :reload
     mgr.vm.provision "shell", :path => "./mgr/warewulf_install.sh"
     mgr.vm.provision "file",  source: "./mgr/warewulf.conf", destination: "/tmp/warewulf.conf"
-    mgr.vm.provision "file",  source: "./mgr/centos-8.dev", destination: "/tmp/centos-8.def"
+    mgr.vm.provision "file",  source: "./mgr/centos-8.def", destination: "/tmp/centos-8.def"
     mgr.vm.provision "shell", :path => "./mgr/warewulf_config.sh"
     mgr.vm.provision "shell", :path => "./mgr/warewulf_container.sh"
   end
