@@ -41,7 +41,11 @@ sudo wwctl configure hosts --persist
 # Make sure all hosts are in DHCP
 sudo wwctl configure dhcp --persist
 
+
+# Add / Modify runtime overlays
 sudo wwctl overlay import default /etc/shadow /etc/shadow.ww
+sudo wwctl overlay mkdir --mode 640 default /etc/sudoers.d
+sudo wwctl overlay import --mode 440 default /etc/sudoers.d/vagrant
 
 # (Re)build all overlays
 sudo wwctl overlay build -a
