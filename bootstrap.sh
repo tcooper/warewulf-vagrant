@@ -10,9 +10,7 @@ ISO="http://boot.ipxe.org/ipxe.iso"
 
 mkdir -p iso
 pushd ./iso
-
 test -f "$(basename "${ISO}")" || curl -LOR "$ISO"
-
 popd
 
 

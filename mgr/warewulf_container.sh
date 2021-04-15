@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 CHROOT_DIR=/var/warewulf/chroots
 CHROOT_NAME=centos8.3
 BUILD_DIR="/home/vagrant/singularity/${CHROOT_NAME}"
@@ -37,4 +39,3 @@ sudo wwctl container list
 sudo wwctl profile set --container centos8.3 default<< EOF
 y
 EOF
-

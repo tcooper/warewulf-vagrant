@@ -27,4 +27,4 @@ cat << 'TEMPLATE'
 
 TEMPLATE
 ) > $HOSTS_TMPL
-sudo cat /tmp/hosts >> /etc/hosts
+(sudo tee /etc/hosts) < /tmp/hosts
