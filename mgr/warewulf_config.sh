@@ -24,15 +24,16 @@ EOF
 sudo wwctl profile list --verbose
 
 # Add node(s) and build node specific overlays
-sudo wwctl node add cn0.cluster --netdev enp0s8 -I 192.168.15.130 --hwaddr "08:00:27:54:8a:84" --discoverable
-sudo wwctl node set --netdev enp0s3 -I 10.0.2.130 --hwaddr "08:00:27:F4:4F:4C" cn0
-sudo wwctl node set --netdev enp0s8 --netdefault cn0
+sudo wwctl node add cn0 --netdev enp0s8 -I 192.168.15.130 --hwaddr "08:00:27:54:8a:84" --type Ethernet
+sudo wwctl node set --yes --netdev enp0s8 --netdefault cn0
+sudo wwctl node set --yes --discoverable cn0
 
-sudo wwctl node add cn1.cluster --netdev enp0s8 -I 192.168.15.131 --hwaddr "08:00:27:db:86:d5" --discoverable
-sudo wwctl node set --netdev enp0s3 --hwaddr "08:00:27:45:b9:e5" cn1
-sudo wwctl node set --netdev enp0s8 --netdefault cn1
+sudo wwctl node add cn1 --netdev enp0s8 -I 192.168.15.131 --hwaddr "08:00:27:db:86:d5" --type Ethernet
+sudo wwctl node set --yes --netdev enp0s8 --netdefault cn1
+sudo wwctl node set --yes --discoverable cn1
 
-sudo wwctl node list
+sudo wwctl node list --long
+sudo wwctl node list --net
 
 # Add shadow file runtime overlay
 sudo wwctl overlay import default /etc/shadow /etc/shadow.ww
