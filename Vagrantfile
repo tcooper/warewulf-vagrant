@@ -62,7 +62,7 @@ Vagrant.configure(2) do |config|
   cfg["compute_count"].times do |index|
     COMPUTE_NAME = "cn#{index}"
 
-    config.vm.define COMPUTE_NAME, autostart: false do |config|
+    config.vm.define COMPUTE_NAME, autostart: true do |config|
 
       config.vm.boot_timeout = 300
       config.vm.box = cfg["compute_image"]
