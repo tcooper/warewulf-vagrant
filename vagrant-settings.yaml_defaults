@@ -19,9 +19,13 @@ compute_gui: true
 compute_count: 2
 
 cn0_firmware: bios
-cn0_nic1_mac: 080027548A84
+cn0_nic1_mac: 080027F44F4C
 cn0_nic1_ip: 10.2.2.130
+cn0_nic2_mac: 080027548A84
+cn0_nic2_ip: 192.168.15.130
 
 cn1_firmware: bios
-cn1_nic1_mac: 080027DB86D5
+cn1_nic1_mac: 08002745B9E5
 cn1_nic1_ip: 10.2.2.131
+cn1_nic2_mac: 080027DB86D5
+cn1_nic2_ip: 192.168.15.131
