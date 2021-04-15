@@ -42,21 +42,21 @@ Vagrant.configure(2) do |config|
 
   cfg["compute_count"].times do |index|
     COMPUTE_NAME = "cn#{index}"
+
     config.vm.define COMPUTE_NAME, autostart: false do |config|
 
       config.vm.boot_timeout = 300
       config.vm.box = cfg["compute_image"]
 
       # warewulf will deploy these via overlays
+      config.ssh.insert_key = false
+      config.ssh.private_key_path = ".vagrant/machines/mgr/virtualbox/private_key"
       config.vm.allow_fstab_modification = false
       config.vm.allow_hosts_modification = false
       config.vm.synced_folder '.', '/vagrant', disabled: true
-      config.ssh.insert_key = false
-      config.ssh.private_key_path = ".vagrant/machines/mgr/virtualbox/private_key"
 
-      #config.vm.network "private_network", ip: cfg["cn#{index}_nic1_ip"]
-      config.vm.network "private_network", ip: cfg["cn#{index}_nic2_ip"], virtualbox__intnet: true, virtualbox__intnet: "ww4-intnet"
 
+      config.vm.network "private_network", ip: cfg["cn#{index}_nic2_ip"], auto_config: false
       config.vm.provider "virtualbox" do |vb|
         vb.memory = cfg["compute_ram"]
         vb.cpus = cfg["compute_cpus"]
