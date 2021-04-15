@@ -1,2 +1,4 @@
+.DS_Store
 .vagrant/*
 iso/ipxe.iso
+vagrant-settings.yaml
