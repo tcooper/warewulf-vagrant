@@ -30,6 +30,20 @@ Vagrant.configure(2) do |config|
       vb.memory = cfg["mgr_ram"]
       vb.cpus = cfg["mgr_cpus"]
       vb.gui = cfg["mgr_gui"]
+
+      # let vagrant known that the guest does not have the guest additions nor a functional vboxsf or shared folders.
+      vb.check_guest_additions = false
+      vb.functional_vboxsf = false
+      vb.default_nic_type = "virtio"
+
+      # Various VirtualBox Customizations
+      vb.customize ["modifyvm", :id, "--firmware", cfg["mgr_firmware"]]
+      vb.customize ["modifyvm", :id, "--graphicscontroller", "vmsvga", "--vram", "128"]
+      vb.customize ["modifyvm", :id, "--rtcuseutc", "on"]
+      vb.customize ["modifyvm", :id, "--vrde", "off"]
+      vb.customize ["modifyvm", :id, "--audio", "none"]
+      vb.customize ["modifyvm", :id, "--clipboard", "disabled", "--draganddrop", "disabled"]
+      vb.customize ["modifyvm", :id, "--mouse", "usb", "--keyboard", "usb"]
     end
 
     # NOTE: Configuration sequence from https://warewulf.readthedocs.io/en/latest/getting-started/quickstart-rocky8.html
@@ -66,9 +80,31 @@ Vagrant.configure(2) do |config|
         vb.check_guest_additions = false
         vb.functional_vboxsf = false
 
+        # Various VirtualBox Customizations
+        vb.customize ["modifyvm", :id, "--firmware", cfg["cn#{index}_firmware"]]
+        vb.customize ["modifyvm", :id, "--graphicscontroller", "vmsvga", "--vram", "128"]
+        vb.customize ["modifyvm", :id, "--rtcuseutc", "on"]
+        vb.customize ["modifyvm", :id, "--vrde", "off"]
+        vb.customize ["modifyvm", :id, "--audio", "none"]
+        vb.customize ["modifyvm", :id, "--clipboard", "disabled", "--draganddrop", "disabled"]
+        vb.customize ["modifyvm", :id, "--mouse", "usb", "--keyboard", "usb"]
+
         # Attach in iPXE ISO that provides bzImage support
-        vb.customize ["modifyvm", :id, "--boot1", "dvd", "--boot2", "disk", "--macaddress1", cfg["cn#{index}_nic1_mac"], "--macaddress2", cfg["cn#{index}_nic2_mac"]]
+        # If we get chainloading working this will not be required
+        # If you switch to efi firmware this device attachment will fail, add conditional based on cfg["compute_firmware"] specification
         vb.customize ["storageattach", :id, "--storagectl", "SATA Controller", "--port", "1", "--type", "dvddrive", "--medium", cfg["compute_iso"]]
+
+        # Configure for PXE boot
+        #vb.customize ['modifyvm', :id, '--boot1', 'net'] # Default PXE boot will not work with VB PXI ROM, no support for bzImage
+        vb.customize ['modifyvm', :id, '--boot1', 'dvd'] # Boot from mounted iPXE ISO in virtual DVD drive
+        vb.customize ['modifyvm', :id, '--boot2', 'disk']
+        vb.customize ['modifyvm', :id, '--biospxedebug', 'on']
+        vb.customize ["modifyvm", :id, "--macaddress1", cfg["cn#{index}_nic1_mac"]]
+        vb.customize ["modifyvm", :id, "--macaddress2", cfg["cn#{index}_nic2_mac"]]
+        vb.customize ['modifyvm', :id, '--cableconnected2', 'on']
+        vb.customize ['modifyvm', :id, '--nicbootprio2', '1']
+        vb.customize ['modifyvm', :id, "--nictype2", '82540EM'] # Must be an Intel card (as-of VB 5.1 we cannot Intel PXE boot from a virtio-net card).
+
       end
     end
   end
