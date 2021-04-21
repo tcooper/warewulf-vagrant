@@ -17,9 +17,7 @@ sudo wwctl container import docker://warewulf/centos-8 centos8 --setdefault
 sudo wwctl kernel import "$(uname -r)" --setdefault
 
 # Setup the default node profile
-sudo wwctl profile set default --netdev enp0s8 -M 255.255.255.0 -G 192.168.15.15<< EOF
-y
-EOF
+sudo wwctl profile set --yes default --netdev enp0s8 -M 255.255.255.0 -G 192.168.15.15
 
 sudo wwctl profile list --verbose
 

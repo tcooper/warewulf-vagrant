@@ -28,10 +28,11 @@ cd "${BUILD_DIR}"
 sudo tar -cf - ./rootfs | (cd "${CHROOT_DIR}/${CHROOT_NAME}"; sudo tar -xf -)
 
 # Build new image
-sudo wwctl container build ${CHROOT_NAME}
+sudo wwctl container build "${CHROOT_NAME}"
 sudo wwctl container list
 
-# Assign image to default profile
-sudo wwctl profile set --container centos8.3 default<< EOF
-y
-EOF
+# Create custom profile for container
+sudo wwctl profile add "${CHROOT_NAME}"
+sudo wwctl profile set --yes --container "${CHROOT_NAME}" "${CHROOT_NAME}"
+sudo wwctl profile set --yes --comment "This profile includes VNFS built with Singularity by modifying docker://warewulf/centos-8" "${CHROOT_NAME}"
+sudo wwctl profile set --yes --kernel "$(uname -r)" "${CHROOT_NAME}"

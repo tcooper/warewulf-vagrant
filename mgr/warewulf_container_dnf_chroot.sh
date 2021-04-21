@@ -33,10 +33,16 @@ cd "${BUILD_DIR}"
 sudo tar -cf - ./rootfs | (cd "${CHROOT_DIR}/${CHROOT_NAME}"; sudo tar -xf -)
 
 # Build new image
-sudo wwctl container build ${CHROOT_NAME}
+sudo wwctl container build --force "${CHROOT_NAME}"
 sudo wwctl container list
 
-# Assign image to default profile
-sudo wwctl profile set --container ${CHROOT_NAME} default<< EOF
-y
-EOF
+# Create custom profile for container
+sudo wwctl profile add "${CHROOT_NAME}"
+sudo wwctl profile set --yes --container "${CHROOT_NAME}" "${CHROOT_NAME}"
+sudo wwctl profile set --yes --comment "This profile provides VNFS built using dnf into chroot" "${CHROOT_NAME}"
+sudo wwctl profile set --yes --kernel "$(uname -r)" "${CHROOT_NAME}"
+
+# Apply the custom profile to cn0
+sudo wwctl node set --yes --addprofile "${CHROOT_NAME}" cn0
+sudo wwctl node set --yes --addprofile "${CHROOT_NAME}" cn1
+sudo wwctl node list --long
