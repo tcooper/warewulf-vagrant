@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Update to box OS
-dnf -y update
+sudo dnf -y update
 
 # Disable selinux
 sudo setenforce permissive
