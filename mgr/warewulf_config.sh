@@ -7,10 +7,10 @@ set -x
 sudo cp /tmp/warewulf.conf /etc/warewulf/warewulf.conf
 
 # Configure system services
-sudo wwctl configure dhcp --persist
-sudo wwctl configure tftp --persist
-sudo wwctl configure nfs  --persist
-sudo wwctl configure ssh  --persist
+sudo wwctl configure dhcp
+sudo wwctl configure tftp
+sudo wwctl configure nfs
+sudo wwctl configure ssh
 
 # Pull and build the VNFS container and kernel
 sudo wwctl container import docker://warewulf/centos-8 centos8 --setdefault
@@ -34,10 +34,10 @@ sudo wwctl node list --long
 sudo wwctl node list --net
 
 # Update the cluster /etc/hosts file
-sudo wwctl configure hosts --persist
+sudo wwctl configure hosts
 
 # Make sure all hosts are in DHCP
-sudo wwctl configure dhcp --persist
+sudo wwctl configure dhcp
 
 
 # Add / Modify runtime overlays
