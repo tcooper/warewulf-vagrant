@@ -2,6 +2,7 @@
 
 # Update to box OS
 sudo dnf -y update
+sudo dnf -y install wget
 
 # Disable selinux
 sudo setenforce permissive
