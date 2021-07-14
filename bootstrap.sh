@@ -19,14 +19,24 @@ popd
 
 
 # Add vagrant plugins
-vagrant plugin install vagrant-reload
+set +e
+vagrant plugin list | grep -q "vagrant-reload"
+ret=$?
+set -e
+if [[ $ret -ne 0 ]]; then
+  vagrant plugin install vagrant-reload
+fi
 
 
 # Add VirtualBox NAT Network
-
+# NOTE: This needs something to detect natnetwork SUBNET collision with any
+#       existing natnetwork along with auto-modification or notice to modify
+#       vagrant-settings.yaml appropriately.
+set +e
 VBoxManage list natnets | grep "${NATNET_NAME}" >/dev/null 2>&1
 ret=$?
-if [[ "$ret" -ne 0 ]]; then
+set -e
+if [[ $ret -ne 0 ]]; then
   VBoxManage natnetwork add --netname "${NATNET_NAME}" --network "${NATNET_NETWORK}" --enable --dhcp off
   VBoxManage natnetwork start --netname "${NATNET_NAME}"
 else
