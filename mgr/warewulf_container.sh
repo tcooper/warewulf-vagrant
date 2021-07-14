@@ -1,1 +1,1 @@
-warewulf_container_dnf_chroot.sh
+warewulf_container_rocky8_dnf_chroot.sh
