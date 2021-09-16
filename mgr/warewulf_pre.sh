@@ -4,13 +4,6 @@
 sudo dnf -y update
 sudo dnf -y install wget
 
-# Disable selinux
-sudo setenforce permissive
-
-# Disable firewall
-sudo systemctl stop firewalld
-sudo systemctl disable firewalld
-
 # Fixup /etc/hosts which is mangled by Vagrant
 # See: https://github.com/hashicorp/vagrant/issues/7263
 # Remove entries created by vagrant:
