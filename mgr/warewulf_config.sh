@@ -6,6 +6,23 @@ set -x
 # Deploy configuration file
 sudo cp /tmp/warewulf.conf /etc/warewulf/warewulf.conf
 
+# Setup firewall
+sudo systemctl restart firewalld
+sudo firewall-cmd --permanent --add-service warewulf
+sudo firewall-cmd --permanent --add-service nfs
+sudo firewall-cmd --permanent --add-service tftp
+sudo firewall-cmd --reload
+
+# Create the group the warewulfd service will run as
+sudo groupadd -r warewulf
+
+# Reload system services
+sudo systemctl daemon-reload
+
+# Start and enable the warewulfd service
+sudo systemctl enable --now warewulfd
+sudo wwctl server status
+
 # Configure system services
 sudo wwctl configure dhcp
 sudo wwctl configure tftp
@@ -13,11 +30,11 @@ sudo wwctl configure nfs
 sudo wwctl configure ssh
 
 # Pull and build the VNFS container and kernel
-sudo wwctl container import docker://warewulf/centos-8 centos8 --setdefault
+sudo wwctl container import docker://warewulf/rocky:8 rocky-8 --setdefault
 sudo wwctl kernel import "$(uname -r)" --setdefault
 
 # Setup the default node profile
-sudo wwctl profile set --yes default --netdev enp0s8 -M 255.255.255.0 -G 192.168.15.15
+sudo wwctl profile set --yes default --kernel $(uname -r) --container rocky-8
 
 sudo wwctl profile list --verbose
 
@@ -41,14 +58,16 @@ sudo wwctl configure dhcp
 
 
 # Add / Modify runtime overlays
-sudo wwctl overlay import default /etc/shadow /etc/shadow.ww
-sudo wwctl overlay mkdir --mode 640 default /etc/sudoers.d
-sudo wwctl overlay import --mode 440 default /etc/sudoers.d/vagrant
+sudo wwctl overlay import runtime default /etc/shadow /etc/shadow.ww
+sudo wwctl overlay mkdir runtime --mode 640 default /etc/sudoers.d
+sudo wwctl overlay import runtime --mode 440 default /etc/sudoers.d/vagrant
+sudo wwctl overlay list runtime -la
 
 # (Re)build all overlays
-sudo wwctl overlay build -a
+sudo wwctl overlay build runtime default
+sudo wwctl overlay build system default
 
-# Start warewulf daemons
-sudo wwctl ready
-sudo wwctl server start
+# re-Start warewulf daemons
+sudo wwctl node ready
+sudo wwctl server restart
 sudo wwctl server status
