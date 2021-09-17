@@ -2,13 +2,7 @@
 
 # Update to box OS
 sudo dnf -y update
-
-# Disable selinux
-sudo setenforce permissive
-
-# Disable firewall
-sudo systemctl stop firewalld
-sudo systemctl disable firewalld
+sudo dnf -y install wget
 
 # Fixup /etc/hosts which is mangled by Vagrant
 # See: https://github.com/hashicorp/vagrant/issues/7263
