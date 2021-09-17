@@ -24,12 +24,22 @@ If you don't want to (re)configure anything and just want to bring up the manage
 
 ### Provision everything in one go...
 
+#### Using the (default for this repo) VirtualBox Provider
+
 ```
 ./bootstrap.sh
-vagrant up
+vagrant up --provider virtualbox
 ```
 
 In testing, the entire 3 node cluster was fully provisioned and running in under 9 minutes with manager node install and configuration taking the bulk (8 minutes) of that time. Compute nodes boot diskless in under a minute.
+
+
+#### Using the (in deveopment) VMware Provider
+
+```
+./bootstrap.sh
+vagrant up --provider=vmware_fusion
+```
 
 ## Tips
 

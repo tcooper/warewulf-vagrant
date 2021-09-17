@@ -25,6 +25,14 @@ ret=$?
 set -e
 if [[ $ret -ne 0 ]]; then
   vagrant plugin install vagrant-reload
+  echo ""
+  echo "If you wish to use vmware_fusion to run this environment please run..."
+  echo "    vagrant plugin install vagrant-vmware-desktop"
+  echo ""
+  echo "...and the see..."
+  echo ""
+  echo "    https://www.vagrantup.com/docs/providers/vmware/vagrant-vmware-utility"
+  echo ""
 fi
 
 

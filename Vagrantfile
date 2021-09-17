@@ -51,6 +51,19 @@ Vagrant.configure(2) do |config|
       vb.customize ["modifyvm", :id, "--recordingfile", "./mgr.webm"]
     end
 
+    config.vm.provider "vmware_desktop" do |vmware|
+      vmware.vmx["memsize"] = cfg["mgr_ram"]
+      vmware.vmx["numvcpus"] = cfg["mgr_cpus"]
+      vmware.gui = cfg["mgr_gui"]
+
+      # Starting with the Big Sur release VMware Fusion is no longer able to
+      # create network devices with custom subnet and mask settings to attach
+      # to guests. This means custom IP addresses are not valid when creating
+      # a private network. When creating a private network device to attach to
+      # a guest, simply define it with no options:
+      mgr.vm.network :private_network
+    end
+
     # NOTE: Configuration sequence from https://warewulf.readthedocs.io/en/latest/getting-started/quickstart-rocky8.html
     #config.vm.provision "file", source: "~/.vagrant.d/insecure_private_key", destination: "/vagrant/tmp/keys/ssh_private"
     mgr.vm.provision "shell", name: "Warewulf v4 Pre-Install Host Setup", privileged: false, :path => "./mgr/warewulf_pre.sh"
