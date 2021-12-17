@@ -6,7 +6,7 @@ set -x
 container_name="${CONTAINER_NAME:-rocky8}"
 container_build_dir="${HOME}/chroots/${container_name}"
 os_release="${RELEASE:-8}"
-download_url_base="${DOWNLOAD_URL_BASE:-http://dl.rockylinux.org/pub/rocky/${os_release}/BaseOS/x86_64/os/Packages}"
+download_url_base="${DOWNLOAD_URL_BASE:-http://dl.rockylinux.org/pub/rocky/${os_release}/BaseOS/x86_64/os/Packages/r}"
 warewulf_chroot_dir="${WAREWULF_CHROOT_DIR:-/var/warewulf/chroots}"
 
 # Create clean builddir for custom chroot built from scratch on CentOS 8 host
