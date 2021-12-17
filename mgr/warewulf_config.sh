@@ -12,6 +12,10 @@ sudo wwctl configure tftp
 sudo wwctl configure nfs
 sudo wwctl configure ssh
 
+# Start the warewulfd.service
+sudo systemctl enable --now warewulfd.service
+sudo wwctl server status
+
 # Pull and build the VNFS container and kernel
 sudo wwctl container import docker://warewulf/centos-8 centos8 --setdefault
 sudo wwctl kernel import "$(uname -r)" --setdefault
@@ -46,8 +50,3 @@ sudo wwctl overlay import runtime --mode 440 default /etc/sudoers.d/vagrant
 
 # (Re)build all overlays
 sudo wwctl overlay build -a
-
-# Start warewulf daemons
-sudo wwctl ready
-sudo wwctl server start
-sudo wwctl server status
