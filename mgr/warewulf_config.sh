@@ -29,12 +29,16 @@ sudo wwctl configure tftp
 sudo wwctl configure nfs
 sudo wwctl configure ssh
 
+# Start the warewulfd.service
+sudo systemctl enable --now warewulfd.service
+sudo wwctl server status
+
 # Pull and build the VNFS container and kernel
 sudo wwctl container import docker://warewulf/rocky:8 rocky-8 --setdefault
 sudo wwctl kernel import "$(uname -r)" --setdefault
 
 # Setup the default node profile
-sudo wwctl profile set --yes default --kernel $(uname -r) --container rocky-8
+sudo wwctl profile set --yes default --kernel "$(uname -r)" --container rocky-8
 
 sudo wwctl profile list --verbose
 
@@ -56,18 +60,10 @@ sudo wwctl configure hosts
 # Make sure all hosts are in DHCP
 sudo wwctl configure dhcp
 
-
 # Add / Modify runtime overlays
 sudo wwctl overlay import runtime default /etc/shadow /etc/shadow.ww
-sudo wwctl overlay mkdir runtime --mode 640 default /etc/sudoers.d
+sudo wwctl overlay mkdir  runtime --mode 640 default /etc/sudoers.d
 sudo wwctl overlay import runtime --mode 440 default /etc/sudoers.d/vagrant
-sudo wwctl overlay list runtime -la
 
 # (Re)build all overlays
-sudo wwctl overlay build runtime default
-sudo wwctl overlay build system default
-
-# re-Start warewulf daemons
-sudo wwctl node ready
-sudo wwctl server restart
-sudo wwctl server status
+sudo wwctl overlay build -a
