@@ -53,8 +53,9 @@ Vagrant.configure(2) do |config|
 
     # NOTE: Configuration sequence from https://warewulf.readthedocs.io/en/latest/getting-started/quickstart-rocky8.html
     #config.vm.provision "file", source: "~/.vagrant.d/insecure_private_key", destination: "/vagrant/tmp/keys/ssh_private"
-    mgr.vm.provision "shell", name: "Warewulf v4 Pre-Install Host Setup", privileged: false, :path => "./mgr/warewulf_pre.sh"
+    mgr.vm.provision "shell", name: "Warewulf v4 Host Setup", privileged: false, :path => "./mgr/warewulf_pre.sh"
     mgr.vm.provision :reload
+    mgr.vm.provision "shell", name: "Warewulf v4 Install Developer Tools", privileged: false, :path => "./mgr/warewulf_install_devel.sh"
     mgr.vm.provision "shell", name: "Warewulf v4 Build and Install", privileged: false, :path => "./mgr/warewulf_install.sh"
     mgr.vm.provision "file",  source: "./mgr/warewulf.conf", destination: "/tmp/warewulf.conf"
     mgr.vm.provision "file",  source: "./mgr/centos-8.def", destination: "/tmp/centos-8.def"
