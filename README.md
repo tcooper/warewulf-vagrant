@@ -37,3 +37,7 @@ In testing, the entire 3 node cluster was fully provisioned and running in under
 *   Install of Warewulf v4 based on the [EL8 Quickstart (Rocky and RHEL)](https://warewulf.hpcng.org/docs/quickstart/el8) is handled in [`mgr/warewulf_install.sh`](./mgr/warewulf_install.sh)
 *   Configuration based on the [EL8 Quickstart (Rocky and RHEL)](https://warewulf.hpcng.org/docs/quickstart/el8) is handled in [`mgr/warewulf_config.sh`](./mgr/warewulf_config.sh)
 *   Customization through creation of a second container image using [Singularity](https://github.com/hpcng/singularity/) is handled in [`mgr/warewulf_container.sh`](./mgr/warewulf_container.sh)
+
+## Important
+
+*   VirtualBox 6.1.28 introduced a change that breaks this deployement without modification to the host configuration that will not be corrected by `bootstrap.sh`. Follow the instructions in the [Host-Only Networking](https://www.virtualbox.org/manual/ch06.html#network_hostonly) section of the VirtualBox user guide for instructions for configuration of `/etc/vbox/networks.conf`.
