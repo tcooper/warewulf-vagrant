@@ -9,6 +9,13 @@ os_release="${RELEASE:-8}"
 download_url_base="${DOWNLOAD_URL_BASE:-http://dl.rockylinux.org/pub/rocky/${os_release}/BaseOS/x86_64/os/Packages/r}"
 warewulf_chroot_dir="${WAREWULF_CHROOT_DIR:-/var/warewulf/chroots}"
 
+# This container build requires running distro to be CentOS
+if ! (awk -F\= '/^NAME/ {print $2}' /etc/os-release | grep -qi rocky)
+then
+    printf "%s must be run on Rocky Linux\n" "$0"
+    exit 0
+fi
+
 # Create clean builddir for custom chroot built from scratch on CentOS 8 host
 if [ -d "${container_build_dir}/rootfs" ]; then
   sudo /bin/rm -rf "${container_build_dir}/rootfs"

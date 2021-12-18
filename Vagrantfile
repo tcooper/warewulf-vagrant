@@ -60,6 +60,7 @@ Vagrant.configure(2) do |config|
     mgr.vm.provision "file",  source: "./mgr/warewulf.conf", destination: "/tmp/warewulf.conf"
     mgr.vm.provision "file",  source: "./mgr/centos-8.def", destination: "/tmp/centos-8.def"
     mgr.vm.provision "shell", name: "Warewulf v4 Configuration", privileged: false, :path => "./mgr/warewulf_config.sh"
+    # The default docker container for rocky8 provided by warewulf doen't include sudo which is required for vagrant so we build our own
     mgr.vm.provision "shell", name: "Warewulf v4 Custom VNFS Creation", privileged: false, :path => "./mgr/warewulf_container.sh"
   end
 
