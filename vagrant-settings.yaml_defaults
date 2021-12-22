@@ -23,9 +23,11 @@ compute_recording_time: 60
 compute_count: 2
 
 cn0_firmware: bios
+cn0_nic1_mac: 080027548A82
 cn0_nic2_mac: 080027548A84
 cn0_nic2_ip: 192.168.15.130
 
 cn1_firmware: bios
+cn1_nic1_mac: 080027DB86D3
 cn1_nic2_mac: 080027DB86D5
 cn1_nic2_ip: 192.168.15.131

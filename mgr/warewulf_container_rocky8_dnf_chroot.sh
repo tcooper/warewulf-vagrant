@@ -16,6 +16,9 @@ then
     exit 0
 fi
 
+# Service enablement in chroot using systemd-nspawn
+sudo dnf install -y systemd-container
+
 # Create clean builddir for custom chroot built from scratch on CentOS 8 host
 if [ -d "${container_build_dir}/rootfs" ]; then
   sudo /bin/rm -rf "${container_build_dir}/rootfs"
@@ -39,14 +42,28 @@ mapfile -t rpms_to_install < <(find "${container_build_dir}" -name "rocky*.rpm" 
 sudo rpm --root="${container_build_dir}/rootfs" --nodeps -i "${rpms_to_install[@]}"
 
 # Install minimal system into chroot using dnf to resolve all dependencies
-sudo dnf --refresh --installroot "${container_build_dir}/rootfs" \
-     install -y \
-     basesystem bash chkconfig coreutils cpio cronie crontabs curl \
-     dhclient dnf e2fsprogs ethtool filesystem findutils fipscheck fipscheck-lib \
-     gawk grep gzip initscripts ipmitool iproute iputils less libndp net-tools \
-     NetworkManager NetworkManager-libnm nfs-utils openssh-clients openssh-server \
-     pam pciutils polkit-libs psmisc rsync rsyslog sed setup shadow-utils strace \
-     sudo tar tzdata util-linux vim-minimal wget which words zlib
+sudo dnf --assumeyes --nodocs --refresh \
+    --installroot "${container_build_dir}/rootfs" \
+     install \
+     basesystem bash chkconfig coreutils cpio cronie crontabs dhclient dnf \
+     e2fsprogs ethtool filesystem findutils gawk grep gzip initscripts \
+     ipmitool iproute iputils less net-tools network-scripts nfs-utils \
+     NetworkManager NetworkManager-config-server NetworkManager-libnm \
+     openssh-clients openssh-server pam pciutils psmisc rsync rsyslog sed \
+     setup shadow-utils strace sudo tar tzdata util-linux vim-minimal wget \
+     which words zlib
+
+# Remove root password to allow login of overlays don't... overlay
+#sudo sed -i 's/^root:.:/root::/g' "${container_build_dir}/rootfs/etc/passwd"
+
+# Not using Singularity (we're outside the chroot) so we need to create a
+# namespace to be able to enable the network service
+sudo systemd-nspawn --quiet \
+    --directory "${container_build_dir}/rootfs" \
+    --tmpfs=/var/run/lock \
+     /bin/systemctl enable network
+
+sudo touch "${container_build_dir}/rootfs/etc/sysconfig/disable-deprecation-warnings" ;
 
 # Copy chroot to container directory
 sudo mkdir -p "${warewulf_chroot_dir}/${container_name}"

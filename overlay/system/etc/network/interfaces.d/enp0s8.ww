@@ -1,0 +1,7 @@
+auto enp0s8
+allow-hotplug enp0s8
+iface enp0s8 inet static
+  address {{.NetDevs.enp0s8.Ipaddr}}
+  netmask {{.NetDevs.enp0s8.Netmask}}
+  gateway {{.NetDevs.enp0s8.Gateway}}
+  up ifmetric enp0s8 30

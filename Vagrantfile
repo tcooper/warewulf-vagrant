@@ -59,6 +59,13 @@ Vagrant.configure(2) do |config|
     mgr.vm.provision "shell", name: "Warewulf v4 Build and Install", privileged: false, :path => "./mgr/warewulf_install.sh"
     mgr.vm.provision "file",  source: "./mgr/warewulf.conf", destination: "/tmp/warewulf.conf"
     mgr.vm.provision "file",  source: "./mgr/centos-8.def", destination: "/tmp/centos-8.def"
+    mgr.vm.provision "file",  source: "./overlay/system/etc/network/interfaces.d/enp0s8.ww", destination: "/tmp/enp0s8.ww"
+    mgr.vm.provision "file",  source: "./overlay/system/etc/sysconfig/network-scripts/ifcfg-enp0s8.ww", destination: "/tmp/ifcfg-enp0s8.ww"
+    mgr.vm.provision "file",  source: "./overlay/system/etc/wicked/ifconfig/ifcfg-enp0s8.xml.ww", destination: "/tmp/ifcfg-enp0s8.xml.ww"
+    mgr.vm.provision "file",  source: "./overlay/system/etc/network/interfaces.d/enp0s3.ww", destination: "/tmp/enp0s3.ww"
+    mgr.vm.provision "file",  source: "./overlay/system/etc/sysconfig/network-scripts/ifcfg-enp0s3.ww", destination: "/tmp/ifcfg-enp0s3.ww"
+    mgr.vm.provision "file",  source: "./overlay/system/etc/wicked/ifconfig/ifcfg-enp0s3.xml.ww", destination: "/tmp/ifcfg-enp0s3.xml.ww"
+    mgr.vm.provision "file",  source: "./overlay/system/etc/sysconfig/network.ww", destination: "/tmp/network.ww"
     mgr.vm.provision "shell", name: "Warewulf v4 Configuration", privileged: false, :path => "./mgr/warewulf_config.sh"
     # The default docker container for rocky8 provided by warewulf doen't include sudo which is required for vagrant so we build our own
     mgr.vm.provision "shell", name: "Warewulf v4 Custom VNFS Creation", privileged: false, :path => "./mgr/warewulf_container.sh"
@@ -114,6 +121,7 @@ Vagrant.configure(2) do |config|
         vb.customize ['modifyvm', :id, '--biospxedebug', 'on']
         vb.customize ["modifyvm", :id, "--macaddress1", cfg["cn#{index}_nic1_mac"]]
         vb.customize ["modifyvm", :id, "--macaddress2", cfg["cn#{index}_nic2_mac"]]
+        vb.customize ['modifyvm', :id, '--cableconnected1', 'on']
         vb.customize ['modifyvm', :id, '--cableconnected2', 'on']
         vb.customize ['modifyvm', :id, '--nicbootprio2', '1']
         vb.customize ['modifyvm', :id, "--nictype2", '82540EM'] # Must be an Intel card (as-of VB 5.1 we cannot Intel PXE boot from a virtio-net card).

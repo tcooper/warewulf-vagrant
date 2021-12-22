@@ -1,0 +1,9 @@
+DEVICE=enp0s8
+NAME=enp0s8
+IPADDR={{$.NetDevs.enp0s8.Ipaddr}}
+NETMASK={{$.NetDevs.enp0s8.Netmask}}
+GATEWAY={{$.NetDevs.enp0s8.Gateway}}
+HWADDR={{$.NetDevs.enp0s8.Hwaddr}}
+BOOTPROTO=static
+ONBOOT=yes
+DEVTIMEOUT=10

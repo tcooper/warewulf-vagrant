@@ -1,0 +1,3 @@
+NETWORKING=yes
+HOSTNAME={{$.Id}}
+GATEWAY={{$.NetDevs.enp0s8.Gateway}}
