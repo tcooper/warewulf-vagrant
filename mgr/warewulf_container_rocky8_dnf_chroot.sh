@@ -9,7 +9,7 @@ os_release="${RELEASE:-8}"
 download_url_base="${DOWNLOAD_URL_BASE:-http://dl.rockylinux.org/pub/rocky/${os_release}/BaseOS/x86_64/os/Packages/r}"
 warewulf_chroot_dir="${WAREWULF_CHROOT_DIR:-/var/warewulf/chroots}"
 
-# This container build requires running distro to be CentOS
+# This container build requires running distro to be Rocky Linux
 if ! (awk -F\= '/^NAME/ {print $2}' /etc/os-release | grep -qi rocky)
 then
     printf "%s must be run on Rocky Linux\n" "$0"
@@ -21,7 +21,7 @@ sudo dnf install -y systemd-container
 
 # Create clean builddir for custom chroot built from scratch on CentOS 8 host
 if [ -d "${container_build_dir}/rootfs" ]; then
-  sudo /bin/rm -rf "${container_build_dir}/rootfs"
+    sudo /bin/rm -rf "${container_build_dir}/rootfs"
 fi
 mkdir -p "${container_build_dir}/rootfs"
 cd "${container_build_dir}"
@@ -34,8 +34,8 @@ rpms_to_download=( rocky-release rocky-repos rocky-gpg-keys )
 wget -qp "${download_url_base}/"
 rpms_to_install=()
 for r in "${rpms_to_download[@]}"; do
-  x=$(sed -e 's/<[^<]*>//g' "$(find . -name index.html)" | grep "${r}" | awk '{print $1}' | sort -k1,1V | tail -n 1)
-  wget -p "${download_url_base}/$x"
+    x=$(sed -e 's/<[^<]*>//g' "$(find . -name index.html)" | grep "${r}" | awk '{print $1}' | sort -k1,1V | tail -n 1)
+    wget -p "${download_url_base}/$x"
 done
 #rpms_to_install=( $(find "${container_build_dir}" -name "rocky*.rpm" -type f) )
 mapfile -t rpms_to_install < <(find "${container_build_dir}" -name "rocky*.rpm" -type f)
