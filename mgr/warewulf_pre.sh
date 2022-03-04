@@ -2,7 +2,7 @@
 
 # Update to box OS
 sudo dnf -y update
-sudo dnf -y install wget
+sudo dnf -y install wget rpmdevtools
 
 # Fixup /etc/hosts which is mangled by Vagrant
 # See: https://github.com/hashicorp/vagrant/issues/7263

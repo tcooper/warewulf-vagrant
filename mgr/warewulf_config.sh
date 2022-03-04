@@ -14,7 +14,7 @@ sudo firewall-cmd --permanent --add-service tftp
 sudo firewall-cmd --reload
 
 # Create the group the warewulfd service will run as
-sudo groupadd -r warewulf
+getent group warewulf >/dev/null || sudo groupadd -r warewulf
 
 # Reload system services
 sudo systemctl daemon-reload
